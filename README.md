@@ -348,6 +348,6 @@ DO-178C에서는 동적 테스트(단위/통합/시스템 테스트), 정적 분
 | 라이프사이클 단계 | 대표적 개발/검증 환경 (Toolchain) | DO-178C 주요 산출물 및 목표 |
 | :--- | :--- | :--- |
 | **요구사항 정의** | IBM DOORS, Jama Connect | SRS, HLR / LLR, 양방향 추적성 매트릭스 |
-| **설계 및 코딩** | Ansys SCADE, MATLAB/Simulink, Green Hills MULTI, Wind River VxWorks | SDS, 소스 코드, 모델 검증 리포트 |
-| **정적 검증** | MathWorks Polyspace, LDRA Testbed, CodeSonar | 정적 분석 보고서, MISRA 코딩 표준 준수 보고서 |
-| **동적 검증 & 커버리지** | VectorCAST, LDRA, Rapita Verification Suite | SVP, SVCP, SVR (Statement, Decision, MC/DC 커버리지 리포트) |
+| **설계 및 코딩** | Ansys SCADE, MATLAB/Simulink,<br> Green Hills MULTI, Wind River VxWorks | SDS, 소스 코드, 모델 검증 리포트 |
+| **정적 검증** | MathWorks Polyspace, LDRA Testbed,<br> CodeSonar | 정적 분석 보고서, MISRA 코딩 표준 준수 보고서 |
+| **동적 검증 & 커버리지** | VectorCAST, LDRA,<br> Rapita Verification Suite | SVP, SVCP, SVR (Statement, Decision, MC/DC 커버리지 리포트) |
