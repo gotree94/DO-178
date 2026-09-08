@@ -262,3 +262,92 @@ V-모델은 **시스템 및 소프트웨어 개발 생명주기(Lifecycle) 모�
 | (d) 기술 보고서 작성 | 각 단계 산출물(문서화) 활동 |
 | (c) SME 협업 문제해결 | 단계 간 피드백·결함 해결 활동 |
 | (a) 일정·현황 감독 | V-단계별 마일스톤·일정 관리 |
+
+---
+
+# DO-178C 및 V-모델 개발·검증 환경 가이드
+
+본 문서는 항공기용 소프트웨어 인증 표준인 **DO-178C** 및 **V-모델(V-Model)** 프로세스를 준수하기 위해 요구사항 정의, 설계, 구현, 검증 및 확인(V&V) 단계에서 대표적으로 활용되는 주요 개발 도구 및 환경을 정리한 가이드입니다.
+
+---
+
+## 1. 요구사항 및 설계 (Requirements & Design) 환경
+
+이 단계에서는 시스템 요구사항 분석, 고위 요구사항(HLR), 저위 요구사항(LLR), 소프트웨어 아키텍처 설계 및 양방향 추적성(Bi-directional Traceability) 관리가 핵심입니다.
+
+### 1.1 IBM DOORS / DOORS Next Generation
+* **주요 용도**: 요구사항 관리 및 추적성 수립 (ALM)
+* **주요 특징**:
+  * 항공/방산 분야의 사실상 표준(De-facto standard) 요구사항 관리 도구.
+  * 요구사항의 버전 관리, 변경 이력 추적 및 승인 워크플로우 지원.
+  * 고위 요구사항(HLR), 저위 요구사항(LLR), 소스 코드, 테스트 케이스 간의 양방향 추적성 매트릭스(Traceability Matrix) 생성.
+
+### 1.2 Jama Connect
+* **주요 용도**: 모던 웹 기반 요구사항 및 위험 관리
+* **주요 특징**:
+  * 웹 기반의 직관적인 UI로 실시간 협업 및 요구사항 리뷰 프로세스 간소화.
+  * DO-178C 규격 준수를 위한 위험 평가(Risk Traceability) 및 영향도 분석(Impact Analysis) 지원.
+
+### 1.3 Ansys SCADE Suite
+* **주요 용도**: 모델 기반 개발(MBD) 및 자동 코드 생성 (DO-331 연계)
+* **주요 특징**:
+  * 안전 필수(Safety-Critical) 임베디드 소프트웨어를 위한 제어 로직 및 아키텍처 모델링 환경.
+  * DAL A 등급까지 인증된 KCG 자동 코드 생성기를 포함하여, 설계 모델로부터 DO-178C 준수 C/Ada 코드를 직접 생성.
+
+### 1.4 MathWorks MATLAB / Simulink
+* **주요 용도**: 모델 기반 설계 및 시뮬레이션
+* **주요 특징**:
+  * 제어 알고리즘 시뮬레이션 및 시스템 수준 검증.
+  * *Simulink Report Generator*, *Embedded Coder*, *Polyspace* 등과의 연동을 통해 요구사항 연결성 및 모델 수준 테스트 수행.
+
+---
+
+## 2. 검증 및 확인 (Verification & Validation) 환경
+
+DO-178C에서는 동적 테스트(단위/통합/시스템 테스트), 정적 분석(Static Analysis), 구조적 커버리지 분석(Structural Coverage Analysis) 및 도구 자격 인증(Tool Qualification, DO-330) 지원 여부가 검증 환경 선정의 핵심 기준입니다.
+
+### 2.1 동적 테스트 & 커버리지 분석 도구 (Dynamic Testing)
+
+#### A. VectorCAST (VectorCAST/C++, VectorCAST/Ada)
+* **주요 용도**: 자동화 단위(Unit) / 통합(Integration) 테스트 및 커버리지 분석
+* **주요 특징**:
+  * 타깃(Target) 보드 또는 시뮬레이터 환경 상에서의 자동화된 요구사항 기반 테스트 수행.
+  * DAL A 등급 필수 요구사항인 **MC/DC (Modified Condition/Decision Coverage)**, Statement, Decision 커버리지 측정.
+  * DO-330 기반 Tool Qualification Package(TQP) 제공.
+
+#### B. LDRA Tool Suite (LDRA Testbed / Cantata)
+* **주요 용도**: 정적/동적 검증 및 결합도 분석
+* **주요 특징**:
+  * 소스 코드 분석, 유닛 테스트, MC/DC 커버리지 분석 통합 환경 제공.
+  * 데이터 결합(Data Coupling) 및 제어 결합(Control Coupling) 분석 기능을 통해 아키텍처 수준 검증 지원.
+
+#### C. Rapita Verification Suite (RapiTest / RapiCover / RapiTime)
+* **주요 용도**: 타깃 기반 동적 테스트 및 최장 실행 시간(WCET) 분석
+* **주요 특징**:
+  * 실제 타깃 환경에서 최저 오버헤드로 실시간 동적 테스트 및 커버리지 측정.
+  * 최장 실행 시간(Worst-Case Execution Time, WCET) 분석을 통한 실시간 성능 타당성 검증.
+
+### 2.2 정적 분석 도구 (Static Analysis & Formal Methods)
+
+#### A. MathWorks Polyspace (Polyspace Bug Finder / Code Prover)
+* **주요 용도**: 소스 코드 정적 분석 및 형식 검증(DO-333 연계)
+* **주요 특징**:
+  * 수학적 형식 검증 기법을 활용하여 런타임 에러(0으로 나누기, 배열 오버플로우, 널 포인터 참조 등)를 완벽히 탐지/증명.
+  * 코드를 직접 실행하지 않고도 동적 테스트의 범위와 부담을 대폭 감소.
+
+#### B. CodeSecure CodeSonar / Synopsys Coverity
+* **주요 용도**: 정적 코드 분석 및 코딩 표준 준수 검사
+* **주요 특징**:
+  * MISRA C/C++, CERT C 등 보안 및 안전성 관련 코딩 표준 준수 여부 검사.
+  * 메모리 누수, 동시성 오류, 데드락 등의 심각한 결함을 컴파일 단계에서 검출.
+
+---
+
+## 3. DO-178C 라이프사이클 단계별 도구 체인 요약
+
+| 라이프사이클 단계 | 대표적 개발/검증 환경 (Toolchain) | DO-178C 주요 산출물 및 목표 |
+| :--- | :--- | :--- |
+| **요구사항 정의** | IBM DOORS, Jama Connect | SRS, HLR / LLR, 양방향 추적성 매트릭스 |
+| **설계 및 코딩** | Ansys SCADE, MATLAB/Simulink, Green Hills MULTI, Wind River VxWorks | SDS, 소스 코드, 모델 검증 리포트 |
+| **정적 검증** | MathWorks Polyspace, LDRA Testbed, CodeSonar | 정적 분석 보고서, MISRA 코딩 표준 준수 보고서 |
+| **동적 검증 & 커버리지** | VectorCAST, LDRA, Rapita Verification Suite | SVP, SVCP, SVR (Statement, Decision, MC/DC 커버리지 리포트) |
