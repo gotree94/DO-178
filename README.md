@@ -4,6 +4,10 @@
 
 ---
 
+![](DO178.png)
+
+---
+
 ## 1. DO-178 (Software Considerations in Airborne Systems and Equipment Certification)
 
 ### 1.1 개요
